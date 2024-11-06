@@ -13,8 +13,9 @@ export const InventorySchema = z.object({
     }),
   sku: z
     .string()
-    .min(10, { message: 'Le SKU est requis' })
-    .max(10, { message: 'Le SKU ne peut pas comporter plus de 10 caractères' }),
+    .min(8, { message: 'Le SKU est requis' })
+    .max(20, { message: 'Le SKU ne peut pas comporter plus de 10 caractères' })
+    .optional(),
   category_id: z
     .string({ required_error: 'La catégorie du produit est requise' })
     .min(8, { message: 'La catégorie doit comporter au moins 8 caractères' }),
@@ -60,8 +61,9 @@ export const ServiceSchema = z.object({
     }),
   sku: z
     .string()
-    .min(10, { message: 'Le SKU est requis' })
-    .max(10, { message: 'Le SKU ne peut pas comporter plus de 10 caractères' }),
+    .min(8, { message: 'Le SKU est requis' })
+    .max(20, { message: 'Le SKU ne peut pas comporter plus de 10 caractères' })
+    .optional(),
   category_id: z.string({
     required_error: 'La catégorie du produit est requise',
   }),
@@ -97,8 +99,9 @@ export const NonInventorySchema = z.object({
     }),
   sku: z
     .string()
-    .min(10, { message: 'Le SKU est requis' })
-    .max(10, { message: 'Le SKU ne peut pas comporter plus de 10 caractères' }),
+    .min(8, { message: 'Le SKU est requis' })
+    .max(20, { message: 'Le SKU ne peut pas comporter plus de 10 caractères' })
+    .optional(),
   category_id: z.string({
     required_error: 'La catégorie du produit est requise',
   }),

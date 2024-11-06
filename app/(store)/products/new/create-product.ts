@@ -11,8 +11,11 @@ import {
 } from './product-schema';
 import prisma from '@/prisma/client';
 import { revalidatePath } from 'next/cache';
+import productSku from '@/lib/product-sku';
 
 const createProduct = async (data: unknown, productType: ProductType) => {
+  const generateProductSku = await productSku();
+
   let result;
 
   if (productType === 'INVENTORY') {
@@ -37,7 +40,7 @@ const createProduct = async (data: unknown, productType: ProductType) => {
       const inventoryData = result.data as InventoryFormData;
       const inventoryProduct = await prisma.product.create({
         data: {
-          sku: inventoryData.sku,
+          sku: inventoryData.sku || generateProductSku!,
           category_id: inventoryData.category_id,
           name: inventoryData.name,
           selling_price: inventoryData.selling_price,
@@ -67,7 +70,7 @@ const createProduct = async (data: unknown, productType: ProductType) => {
       const nonInventoryData = result.data as NonInventoryFormData;
       const nonInventoryProduct = await prisma.product.create({
         data: {
-          sku: nonInventoryData.sku,
+          sku: nonInventoryData.sku || generateProductSku!,
           category_id: nonInventoryData.category_id,
           name: nonInventoryData.name,
           selling_price: nonInventoryData.selling_price,
@@ -89,7 +92,7 @@ const createProduct = async (data: unknown, productType: ProductType) => {
       const serviceData = result.data as ServiceFormData;
       const servicesProduct = await prisma.product.create({
         data: {
-          sku: serviceData.sku,
+          sku: serviceData.sku || generateProductSku!,
           category_id: serviceData.category_id,
           name: serviceData.name,
           selling_price: serviceData.selling_price,

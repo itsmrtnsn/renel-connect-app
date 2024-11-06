@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { DateRangePicker } from '@/components/data-range-picker';
 import SalesCategoryDistribution from './sales-category-distribution';
 import getReportSummary from '../_actions/get-report-summary';
+import { CategorySalesBarCharts } from './category-sales-bar-charts';
 
 interface Props {
   searchParams: { searchQuery: string; page: string };
@@ -46,12 +47,21 @@ const page = async ({ searchParams: { page, searchQuery } }: Props) => {
       <ScrollArea className='h-[80vh] scroll-smooth'>
         <div className='space-y-8'>
           <ReportSummaryCard />
-          <SalesCategoryDistribution
-            food={foodSales}
-            drink={drinkSales}
-            room={roomSales}
-            other={otherSales}
-          />
+
+          <div className='grid grid-cols-2 gap-6'>
+            <CategorySalesBarCharts
+              food={foodSales}
+              drink={drinkSales}
+              room={roomSales}
+              other={otherSales}
+            />
+            <SalesCategoryDistribution
+              food={foodSales}
+              drink={drinkSales}
+              room={roomSales}
+              other={otherSales}
+            />
+          </div>
           <Card className='col-span-1  shadow-none'>
             <CardHeader>
               <div className='flex items-center justify-between'>

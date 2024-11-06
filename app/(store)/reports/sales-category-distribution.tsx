@@ -65,7 +65,7 @@ export default function SalesCategoryDistribution({
   }, [chartData]);
 
   return (
-    <Card className='flex flex-col w-full border-[0.1px] shadow-none col-span-2'>
+    <Card className='flex flex-col w-full  shadow-none '>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Répartition des ventes par catégorie</CardTitle>
       </CardHeader>

@@ -16,8 +16,11 @@ const page = async ({ searchParams: { page, searchQuery } }: Props) => {
   const currentPage = page ? parseInt(page) : 1;
   const itemsPerPage = 10;
 
-  const { sales, totalPage, totalRevenue, totalSalesCount } =
-    await getSalesReport(searchQuery, currentPage, itemsPerPage);
+  const { sales, totalPage, totalRevenue } = await getSalesReport(
+    searchQuery,
+    currentPage,
+    itemsPerPage
+  );
   return (
     <div className='space-y-8'>
       <div className='flex items-center justify-between'>

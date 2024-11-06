@@ -1,0 +1,200 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum ProductType {
+  INVENTORY
+  SERVICES
+  NON_INVENTORY
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
+  ARCHIVED
+}
+
+model Supplier {
+  id               String     @id @unique @default(cuid())
+  name             String     @unique
+  slug             String     @unique
+  email            String     @unique
+  phone            String     @unique
+  product_supplied String?    @db.Text()
+  address          String
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+  purchases        Purchase[]
+
+  @@index([slug])
+  @@index([email])
+  @@index([name])
+}
+
+model Category {
+  id         String    @id @default(cuid())
+  name       String    @unique
+  slug       String    @unique
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  products   Product[]
+
+  @@index([name])
+}
+
+model Product {
+  id                 String             @id @default(cuid())
+  name               String             @unique
+  slug               String             @unique
+  sku                String             @unique
+  selling_price      Float
+  category           Category           @relation(fields: [category_id], references: [id])
+  type               ProductType        @default(INVENTORY)
+  status             ProductStatus      @default(DRAFT)
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @updatedAt
+  category_id        String
+  inventory_products InventoryProduct[]
+  services_products  ServicesProduct[]
+  purchases          Purchase[]
+
+  sale_items SaleItem[]
+
+  @@index([slug])
+  @@index([name])
+}
+
+model InventoryProduct {
+  id            String   @id @default(cuid())
+  product       Product  @relation(fields: [product_id], references: [id])
+  product_id    String
+  reorder_level Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model ServicesProduct {
+  id               String   @id @default(cuid())
+  product          Product  @relation(fields: [product_id], references: [id])
+  product_id       String
+  service_location String?
+  service_duration Int
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+model Purchase {
+  id            String    @id @default(cuid())
+  product       Product   @relation(fields: [product_id], references: [id])
+  product_id    String
+  quantity      Int
+  unit_cost     Float
+  total_cost    Float
+  supplier      Supplier  @relation(fields: [supplier_id], references: [id])
+  supplier_id   String
+  expiry_date   DateTime? @db.Date()
+  purchase_date DateTime  @db.Date()
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  CHECK
+}
+
+enum Discount {
+  FIXED
+  PERCENTAGE
+}
+
+enum SaleCategory {
+  ROOM
+  DRINK
+  FOOD
+  OTHER
+}
+
+model Sale {
+  id                     String        @id @default(cuid())
+  reference              String        @unique @db.VarChar(10)
+  category               SaleCategory
+  cashier_id             String        @db.VarChar(100)
+  payment_method         PaymentMethod @default(CASH)
+  discount               Float?
+  sub_total              Float         @default(0)
+  tax                    Float         @default(0)
+  total                  Float         @default(0)
+  amount_received        Float
+  customer_change        Float         @default(0)
+  created_at             DateTime      @default(now())
+  updated_at             DateTime      @updatedAt
+  sale_items             SaleItem[]
+  customer               Customer?     @relation(fields: [customer_id], references: [id])
+  customer_id            String?
+  room_number            String?
+  transaction_receipt_id String?
+
+  @@index([reference])
+}
+
+model SaleItem {
+  id            String   @id @default(cuid())
+  product       Product  @relation(fields: [product_id], references: [id])
+  sale          Sale     @relation(fields: [sale_id], references: [id])
+  product_id    String
+  sale_id       String
+  quantity      Int
+  unit_price    Int
+  selling_price Float
+  total_price   Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@index([product_id])
+}
+
+enum IdOption {
+  passport
+  drivers_license
+  goverment_issued_id
+  student_id
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  first_name   String   @db.VarChar(50)
+  last_name    String   @db.VarChar(50)
+  birth_date   DateTime @db.Date()
+  phone_number String   @unique @db.VarChar(20)
+  email        String?  @unique @db.VarChar(50)
+  gender       Gender
+  idType       IdOption
+  id_number    String   @unique @db.VarChar(20)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  Sale         Sale[]
+
+  @@index([phone_number])
+  @@index([first_name])
+  @@index([last_name])
+}
+
+enum Gender {
+  MEN
+  WOMEN
+}
+
+// model Cashier {
+//   id              String @id @default(cuid())
+//   cashier_user_id String @unique
+//   Cashier_name    String @unique
+// }

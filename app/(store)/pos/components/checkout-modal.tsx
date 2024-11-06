@@ -85,13 +85,13 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
 
   useEffect(() => {
     const fetchcustomers = async () => {
-      const response = await getCustomers();
+      const response = await getCustomers({ search: query });
       if (response?.success) {
         setCustomers(response.data!);
       }
     };
     fetchcustomers();
-  }, []);
+  }, [customers, query]);
 
   const { getTotal, clearCart } = useCartStore();
   const { calculateDiscount } = useDiscount();

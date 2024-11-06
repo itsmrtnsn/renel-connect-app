@@ -7,6 +7,8 @@ import getSalesReport from '../_actions/get-sales-report';
 import CurrentPath from '@/components/current-path';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DateRangePicker } from '@/components/data-range-picker';
+import SalesCategoryDistribution from './sales-category-distribution';
+import getReportSummary from '../_actions/get-report-summary';
 
 interface Props {
   searchParams: { searchQuery: string; page: string };
@@ -21,6 +23,20 @@ const page = async ({ searchParams: { page, searchQuery } }: Props) => {
     currentPage,
     itemsPerPage
   );
+
+  const {
+    data: { salesByCategory },
+  } = await getReportSummary();
+
+  const foodSales =
+    salesByCategory?.find((category) => category.name === 'FOOD')?.value || 0;
+  const drinkSales =
+    salesByCategory?.find((category) => category.name === 'DRINK')?.value || 0;
+  const roomSales =
+    salesByCategory?.find((category) => category.name === 'ROOM')?.value || 0;
+  const otherSales =
+    salesByCategory?.find((category) => category.name === 'OTHER')?.value || 0;
+
   return (
     <div className='space-y-8'>
       <div className='flex items-center justify-between'>
@@ -30,6 +46,12 @@ const page = async ({ searchParams: { page, searchQuery } }: Props) => {
       <ScrollArea className='h-[80vh] scroll-smooth'>
         <div className='space-y-8'>
           <ReportSummaryCard />
+          <SalesCategoryDistribution
+            food={foodSales}
+            drink={drinkSales}
+            room={roomSales}
+            other={otherSales}
+          />
           <Card className='col-span-1  shadow-none'>
             <CardHeader>
               <div className='flex items-center justify-between'>

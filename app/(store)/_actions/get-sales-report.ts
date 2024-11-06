@@ -18,8 +18,8 @@ const getSalesReport = async (
         AND: [
           {
             OR: [
-              { reference: { contains: searchQuery } },
-              { cashier_id: { contains: searchQuery } },
+              { reference: { startsWith: searchQuery } },
+              { cashier_id: { contains: searchQuery, mode: 'insensitive' } },
             ],
           },
           category ? { category: category } : {}, // Apply category filter if provided

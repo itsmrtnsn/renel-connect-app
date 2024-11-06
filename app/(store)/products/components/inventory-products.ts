@@ -2,6 +2,7 @@ import prisma from '@/prisma/client';
 import { Prisma, ProductStatus } from '@prisma/client';
 
 export interface InventoryProduct {
+  id: string;
   name: string;
   category: string;
   sellingPrice: number;
@@ -49,6 +50,7 @@ const inventoryProducts = async (options: InventoryProductsOptions = {}) => {
         ...searchFilter,
       },
       select: {
+        id: true,
         name: true,
         selling_price: true,
         status: true,
@@ -87,6 +89,7 @@ const inventoryProducts = async (options: InventoryProductsOptions = {}) => {
         totalQuantity > 0 ? totalCost / totalQuantity : 0;
 
       return {
+        id: product.id,
         name: product.name,
         category: product.category?.name ?? 'Uncategorized',
         sellingPrice: product.selling_price,

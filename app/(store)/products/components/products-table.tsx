@@ -9,7 +9,6 @@ import {
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
-import { EllipsisIcon } from 'lucide-react';
 import { ProductStatus } from '@prisma/client';
 import ProductStatusBadge from './product-status-badge';
 
@@ -88,8 +87,7 @@ export default function ProductsTable({ products }: Props) {
                 {product.quantityInStock}
               </TableCell>
               <TableCell>
-                {/* <TableAction productId={product.id} /> */}
-                <EllipsisIcon />
+                {/* <ProductTableAction productId={product.id} /> */}
               </TableCell>
             </TableRow>
           ))}

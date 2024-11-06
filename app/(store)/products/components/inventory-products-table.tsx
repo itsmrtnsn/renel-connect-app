@@ -9,9 +9,9 @@ import {
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
-import { EllipsisIcon } from 'lucide-react';
 import { InventoryProduct } from './inventory-products';
 import ProductStatusBadge from './product-status-badge';
+import ProductTableAction from './product-table-action';
 
 interface Props {
   products: InventoryProduct[];
@@ -40,10 +40,8 @@ export default function InventoryProductsTable({ products }: Props) {
               <TableHead
                 key={head}
                 className={cn('text-sm   font-normal', {
-                  'text-center':
-                    head === 'Statut' ||
-                    head === 'Prix ​​de vente' ||
-                    head === 'Prix ​ moyen',
+                  'text-center': head === 'Statut',
+                  // head === 'Prix ​ moyen',
                 })}
               >
                 {head}
@@ -63,12 +61,13 @@ export default function InventoryProductsTable({ products }: Props) {
               <TableCell>
                 <Checkbox className='border-[0.1px] rounded-md shadow-none' />
               </TableCell>
+
               <TableCell className='text-gray-800'>{product.name}</TableCell>
-              <TableCell className='text-center'>
+              <TableCell className='text-'>
                 {product.averageCostPrice.toFixed(1)}
               </TableCell>
               <TableCell>{product.category}</TableCell>
-              <TableCell className='text-gray-800 text-center'>
+              <TableCell className='text-gray-800 text-'>
                 {product.sellingPrice}
               </TableCell>
               <TableCell className='text-center'>
@@ -78,8 +77,7 @@ export default function InventoryProductsTable({ products }: Props) {
                 {product.stockLevel}
               </TableCell>
               <TableCell aria-disabled={true}>
-                {/* <TableAction productId={product.id} /> */}
-                <EllipsisIcon />
+                <ProductTableAction productId={product.id} />
               </TableCell>
             </TableRow>
           ))}

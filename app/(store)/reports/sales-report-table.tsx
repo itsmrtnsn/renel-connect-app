@@ -72,7 +72,7 @@ const SalesReportTable = ({ sales, totalRevenue }: Props) => {
             Total
           </TableCell>
           <TableCell className='font-semibold text-base text-white'>
-            ${totalRevenue.toFixed(0)}
+            HTG {totalRevenue.toFixed(0)}
           </TableCell>
           <TableCell colSpan={2}></TableCell>
         </TableRow>

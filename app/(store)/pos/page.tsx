@@ -1,9 +1,9 @@
 import Search from '@/components/search';
+import { currentUser } from '@clerk/nextjs/server';
 import { Suspense } from 'react';
 import Cart from './components/cart';
 import ProductGrid from './components/product-grid';
 import getItems from './get-items';
-import { currentUser } from '@clerk/nextjs/server';
 
 interface Props {
   searchParams: { searchQuery: string };

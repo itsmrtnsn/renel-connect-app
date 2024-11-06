@@ -45,7 +45,7 @@ interface Props {
 export default function CreateCustomerForm({ upOnSubmitting }: Props) {
   const years = Array.from(
     { length: new Date().getFullYear() + 10 - 1990 + 1 },
-    (_, i) => 1990 + i
+    (_, i) => 1980 + i
   );
   const months = [
     'January',
@@ -68,7 +68,7 @@ export default function CreateCustomerForm({ upOnSubmitting }: Props) {
     defaultValues: {
       firstName: '',
       lastName: '',
-      email: '',
+      email: null,
       phoneNumber: '',
       idNumber: '',
       idType: '',
@@ -273,7 +273,11 @@ export default function CreateCustomerForm({ upOnSubmitting }: Props) {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder={`Courriel du client`} {...field} />
+                    <Input
+                      placeholder={`Courriel du client`}
+                      {...field}
+                      value={field.value ?? ''}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

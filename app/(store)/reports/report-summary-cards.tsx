@@ -10,20 +10,25 @@ const ReportSummaryCard = async () => {
   }
 
   const reportData = [
-    { id: 1, title: 'Total Sales', value: data.totalRevenue, icon: DollarSign },
+    {
+      id: 1,
+      title: 'Ventes totales',
+      value: data.totalRevenue,
+      icon: DollarSign,
+    },
     {
       id: 2,
-      title: 'Average Transaction',
+      title: 'Ventes moyennes',
       value: data.averageOrderValue,
       icon: TrendingUp,
     },
     {
       id: 3,
-      title: 'Total Transactions',
+      title: 'Total des transactions',
       value: data.totalSales,
       icon: ShoppingCart,
     },
-    { id: 4, title: 'Unique Customers', value: data.newCustomers, icon: Users },
+    { id: 4, title: 'Nouveaux clients', value: data.newCustomers, icon: Users },
   ];
   return (
     <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>

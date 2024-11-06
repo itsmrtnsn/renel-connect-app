@@ -12,11 +12,11 @@ import { cn } from '@/lib/utils';
 import { SaleCategory } from '@prisma/client';
 
 const saleTableHeader = [
-  'Transaction ID',
-  'Cashier',
+  'ID de transaction',
+  'Caissier',
   'Date',
-  'Amount',
-  'Category',
+  'Montant',
+  'Catégorie',
 ];
 
 type Sale = {

@@ -43,6 +43,7 @@ const createProduct = async (data: unknown, productType: ProductType) => {
           selling_price: inventoryData.selling_price,
           status: inventoryData.status,
           type: productType,
+          slug: inventoryData.name.toLowerCase().replace(/ /g, '-'),
         },
       });
 
@@ -72,6 +73,7 @@ const createProduct = async (data: unknown, productType: ProductType) => {
           selling_price: nonInventoryData.selling_price,
           status: nonInventoryData.status,
           type: productType,
+          slug: nonInventoryData.name.toLowerCase().replace(/ /g, '-'),
         },
       });
 
@@ -93,6 +95,7 @@ const createProduct = async (data: unknown, productType: ProductType) => {
           selling_price: serviceData.selling_price,
           status: serviceData.status,
           type: productType,
+          slug: serviceData.name.toLowerCase().replace(/ /g, '-'),
         },
       });
 

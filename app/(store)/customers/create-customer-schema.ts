@@ -26,7 +26,7 @@ const createCustomerSchema = z.object({
     .string({ required_error: 'Le numéro de téléphone est requis' })
     .min(8, { message: 'Numéro de téléphone invalide' })
     .max(20, { message: 'Numéro de téléphone invalide' }),
-  email: z.string({ required_error: 'Email is required' }).email().optional(),
+  email: z.string().email().optional().nullable(),
   idType: z.enum(
     identificationCardOtions.map((id) => id.value) as [string, ...string[]],
     {

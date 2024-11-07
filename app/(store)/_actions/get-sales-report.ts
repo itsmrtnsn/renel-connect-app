@@ -1,3 +1,4 @@
+// Start of Selection
 'use server';
 
 import prisma from '@/prisma/client';
@@ -11,6 +12,22 @@ const getSalesReport = async (
   startDate?: Date,
   endDate?: Date
 ) => {
+  const currentDate = new Date();
+
+  // Ensure startDate is set to 00:00:00.000 of the provided date or current date
+  if (startDate) {
+    startDate.setHours(0, 0, 0, 0);
+  } else {
+    startDate = new Date(currentDate.setHours(0, 0, 0, 0));
+  }
+
+  // Ensure endDate is set to 23:59:59.999 of the provided date or current date
+  if (endDate) {
+    endDate.setHours(23, 59, 59, 999);
+  } else {
+    endDate = new Date(currentDate.setHours(23, 59, 59, 999));
+  }
+
   try {
     const skip = (page - 1) * itemsPerPage;
     const sales = await prisma.sale.findMany({
@@ -23,14 +40,12 @@ const getSalesReport = async (
             ],
           },
           category ? { category: category } : {}, // Apply category filter if provided
-          startDate || endDate
-            ? {
-                created_at: {
-                  gte: startDate || new Date(), // Start date or current date
-                  lte: endDate || new Date(), // End date or current date
-                },
-              }
-            : {},
+          {
+            created_at: {
+              gte: startDate,
+              lte: endDate,
+            },
+          },
         ],
       },
       select: {
@@ -55,14 +70,12 @@ const getSalesReport = async (
             ],
           },
           category ? { category: category } : {},
-          startDate || endDate
-            ? {
-                created_at: {
-                  gte: startDate || new Date(),
-                  lte: endDate || new Date(),
-                },
-              }
-            : {},
+          {
+            created_at: {
+              gte: startDate,
+              lte: endDate,
+            },
+          },
         ],
       },
     });

@@ -1,11 +1,24 @@
+// Start of Selection
 'use server';
 
 import prisma from '@/prisma/client';
 
 const getReportSummary = async (startDate?: Date, endDate?: Date) => {
   const currentDate = new Date();
-  startDate = startDate || new Date(currentDate.setHours(0, 0, 0, 0));
-  endDate = endDate || new Date(currentDate.setHours(23, 59, 59, 999));
+
+  // Ensure startDate is set to 00:00:00.000 of the provided date or current date
+  if (startDate) {
+    startDate.setHours(0, 0, 0, 0);
+  } else {
+    startDate = new Date(currentDate.setHours(0, 0, 0, 0));
+  }
+
+  // Ensure endDate is set to 23:59:59.999 of the provided date or current date
+  if (endDate) {
+    endDate.setHours(23, 59, 59, 999);
+  } else {
+    endDate = new Date(currentDate.setHours(23, 59, 59, 999));
+  }
 
   try {
     const totalSales = await prisma.sale.count({
@@ -60,11 +73,11 @@ const getReportSummary = async (startDate?: Date, endDate?: Date) => {
     }));
 
     return {
-      sucess: true,
+      success: true,
       data: {
         totalSales,
         totalRevenue: revenue._sum.total || 0,
-        averageOrderValue: revenue._avg.total?.toFixed(0) || 0,
+        averageOrderValue: revenue._avg.total?.toFixed(0) || '0',
         newCustomers,
         salesByCategory: salesByCategoryFormatted,
       },

@@ -15,24 +15,34 @@ import SalesItemsReportTable from './sales-items-report-table';
 import SalesReportTable from './sales-report-table';
 
 interface Props {
-  searchParams: { searchQuery: string; page: string };
+  searchParams: { searchQuery: string; page: string; date_range: string };
 }
 
-const page = async ({ searchParams: { page, searchQuery } }: Props) => {
+const page = async ({
+  searchParams: { page, searchQuery, date_range },
+}: Props) => {
+  const dateRange = date_range ? date_range.split('x') : null;
+
+  const startDate = dateRange ? new Date(dateRange[0]) : null;
+  const endDate = dateRange ? new Date(dateRange[1]) : null;
+
   const currentPage = page ? parseInt(page) : 1;
   const itemsPerPage = 10;
 
   const { sales, totalPage, totalRevenue } = await getSalesReport(
     searchQuery,
     currentPage,
-    itemsPerPage
+    itemsPerPage,
+    undefined,
+    startDate as Date,
+    endDate as Date
   );
 
-  const items = await salesItemsReport();
+  const items = await salesItemsReport(searchQuery, startDate!, endDate!);
 
   const {
     data: { salesByCategory },
-  } = await getReportSummary();
+  } = await getReportSummary(startDate || undefined, endDate || undefined);
 
   const foodSales =
     salesByCategory?.find((category) => category.name === 'FOOD')?.value || 0;
@@ -51,7 +61,7 @@ const page = async ({ searchParams: { page, searchQuery } }: Props) => {
       </div>
       <ScrollArea className='h-[80vh] scroll-smooth'>
         <div className='space-y-8 pb-4'>
-          <ReportSummaryCard />
+          <ReportSummaryCard startDate={startDate!} endDate={endDate!} />
 
           <div className='grid grid-cols-2 gap-6'>
             <CategorySalesBarCharts

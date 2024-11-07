@@ -2,11 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, ShoppingCart, TrendingUp, Users } from 'lucide-react';
 import getReportSummary from '../_actions/get-report-summary';
 
-const ReportSummaryCard = async () => {
-  const { success, data, message } = await getReportSummary();
+interface Props {
+  startDate?: Date;
+  endDate?: Date;
+}
+
+const ReportSummaryCard = async ({ startDate, endDate }: Props) => {
+  const { success, data } = await getReportSummary(startDate, endDate);
   if (!success) {
     // return null;
-    console.log(message);
+    // console.log(message);
   }
 
   const reportData = [

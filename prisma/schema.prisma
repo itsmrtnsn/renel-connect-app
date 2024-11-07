@@ -175,7 +175,7 @@ model Customer {
   last_name    String   @db.VarChar(50)
   birth_date   DateTime @db.Date()
   phone_number String   @unique @db.VarChar(20)
-  email        String?  @unique @db.VarChar(50)
+  email        String?  @db.VarChar(50)
   gender       Gender
   idType       IdOption
   id_number    String   @unique @db.VarChar(20)

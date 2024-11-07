@@ -2,7 +2,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -11,11 +10,11 @@ import { cn } from '@/lib/utils';
 
 const saleTableHeader = [
   //   'Product Id',
-  'Product Name',
-  'Items Bought',
-  'AVG Unit Price',
-  'Total Revenue',
-  'Total Sales Count',
+  `Nom de l'article`,
+  'Quantité ',
+  'AVG Prix ​​unitaire',
+  'Revenu',
+  'Nombre de ventes',
 ];
 
 type Sale = {
@@ -31,7 +30,7 @@ interface Props {
   sales: Sale[];
   totalRevenue: number;
 }
-const SalesItemsReportTable = ({ sales, totalRevenue }: Props) => {
+const SalesItemsReportTable = ({ sales }: Props) => {
   return (
     <Table>
       <TableHeader>
@@ -52,21 +51,14 @@ const SalesItemsReportTable = ({ sales, totalRevenue }: Props) => {
           >
             <TableCell>{sale.productName}</TableCell>
             <TableCell>{sale.totalItemsBought}</TableCell>
-            <TableCell>{sale.averageUnitPrice}</TableCell>
-            <TableCell>{sale.totalRevenue}</TableCell>
+            <TableCell>{sale.averageUnitPrice.toFixed(0)}</TableCell>
+            <TableCell>{sale.totalRevenue.toFixed(0)}</TableCell>
             <TableCell>{sale.totalSalesCount}</TableCell>
-            {/* <TableCell>
-              {
-                SalesCategories.find(
-                  (category) => category.value === sale.category
-                )?.name
-              }
-            </TableCell> */}
           </TableRow>
         ))}
       </TableBody>
 
-      <TableFooter>
+      {/* <TableFooter>
         <TableRow className='bg-gray-500 hover:bg-gray-600 transition-colors duration-300 ease-linear cursor-pointer'>
           <TableCell></TableCell>
           <TableCell colSpan={2} className='font-semibold text-base text-white'>
@@ -77,7 +69,7 @@ const SalesItemsReportTable = ({ sales, totalRevenue }: Props) => {
           </TableCell>
           <TableCell colSpan={2}></TableCell>
         </TableRow>
-      </TableFooter>
+      </TableFooter> */}
     </Table>
   );
 };

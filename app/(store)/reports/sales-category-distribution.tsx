@@ -23,15 +23,15 @@ const chartConfig: ChartConfig = {
   },
   room: {
     label: 'Room',
-    color: 'hsl(var(--chart-1))',
+    color: 'hsl(var(--chart-3))',
   },
   drink: {
     label: 'Drink',
-    color: 'hsl(var(--chart-2))',
+    color: 'hsl(var(--chart-1))',
   },
   food: {
     label: 'Food',
-    color: 'hsl(var(--chart-3))',
+    color: 'hsl(var(--chart-2))',
   },
   other: {
     label: 'Other',

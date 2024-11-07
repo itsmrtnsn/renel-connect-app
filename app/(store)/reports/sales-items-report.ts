@@ -1,3 +1,4 @@
+// Start of Selection
 'use server';
 
 import prisma from '@/prisma/client';
@@ -8,7 +9,7 @@ const salesItemsReport = async () => {
       by: ['product_id'],
       _sum: {
         quantity: true, // Total quantity sold
-        selling_price: true, // Total revenue (sum of sale prices)
+        // selling_price: true, // Sum of sale prices removed
         // discount: true, // Sum of all discounts applied, if applicable
       },
       _avg: {
@@ -34,14 +35,16 @@ const salesItemsReport = async () => {
     const productsMap = new Map(products.map((p) => [p.id, p.name]));
 
     const report = salesItems.map((item) => {
-      const totalRevenue = item._sum?.selling_price;
+      const totalItemsBought = item._sum.quantity;
+      const averageUnitPrice = item._avg.selling_price;
+      const totalRevenue = totalItemsBought! * (averageUnitPrice || 0);
       const productName = productsMap.get(item.product_id) || 'Unknown';
 
       return {
         productName,
-        totalItemsBought: item._sum.quantity,
+        totalItemsBought,
         totalSalesCount: item._count._all,
-        averageUnitPrice: item._avg.selling_price?.toFixed(0),
+        averageUnitPrice,
         totalRevenue,
         // totalDiscount: item._sum.discount || 0,
         firstSaleDate: item._min.created_at,

@@ -69,8 +69,8 @@ export const CategorySalesBarCharts = ({ food, drink, other, room }: Props) => {
             <Bar
               dataKey='sales'
               strokeWidth={2}
-              radius={8}
-              activeIndex={2}
+              radius={5}
+              // activeIndex={2}
               activeBar={({ ...props }) => {
                 return (
                   <Rectangle

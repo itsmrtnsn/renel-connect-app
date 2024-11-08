@@ -44,8 +44,8 @@ interface Props {
 
 export default function CreateCustomerForm({ upOnSubmitting }: Props) {
   const years = Array.from(
-    { length: new Date().getFullYear() + 10 - 1990 + 1 },
-    (_, i) => 1804 + i
+    { length: new Date().getFullYear() - 18 - 1950 + 1 },
+    (_, i) => 1950 + i
   );
   const months = [
     'January',

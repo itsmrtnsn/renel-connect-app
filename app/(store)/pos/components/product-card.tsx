@@ -19,13 +19,13 @@ const ProductCard = ({ product }: Props) => {
   const isMaxQuantityReached = currentQuantityInCart >= product.quantityInStock;
 
   return (
-    <Card className='overflow-hidden border-none bg-gray-100 shadow-none transition-all duration-300 hover:shadow-md '>
+    <Card className='bg-white border shadow-none transition-all duration-300  hover:scale-105'>
       <CardContent className='p-4'>
         <div className='flex flex-col h-full'>
           <h2 className='text-sm font-medium mb-2  line-clamp-1 text-black'>
             {product.name}
           </h2>
-          <p className='text-muted-foreground text-sm mb-2 font-medium'>
+          <p className='text-muted-foreground text-xs mb-2 font-medium'>
             {product.category}
           </p>
           <div className='flex justify-between items-center mt-auto'>
@@ -37,7 +37,7 @@ const ProductCard = ({ product }: Props) => {
               variant={'outline'}
               disabled={product.quantityInStock === 0 || isMaxQuantityReached}
               className={cn(
-                'rounded-full w-10 h-10 p-0 shadow-none border-[0.1px] border-gray-200  transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 hover:border-blue-600 bg-white'
+                'rounded-full w-10 h-10 p-0 shadow-none border-[0.1px] border-gray-200  transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 hover:border-blue-600 bg-gray-50 shrink-0'
               )}
               onClick={() => addItem(product)}
             >

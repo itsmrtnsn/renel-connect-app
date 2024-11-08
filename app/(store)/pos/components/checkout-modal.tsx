@@ -61,6 +61,7 @@ import CustomerFormModal from '../../customers/customer-form-modal';
 import getCustomers from '../../customers/get-customer';
 import createSale from '../create-sale';
 import checkOutSchema, { CheckoutFormData } from './checkout-schema';
+import useQueryParameter from '@/app/hooks/use-queryparameter';
 
 interface Props {
   disabled: boolean;
@@ -71,6 +72,7 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const { openModal, closeModal, isOpen } = useCheckoutModal();
+  const { handleQuery } = useQueryParameter('searchQuery');
   const router = useRouter();
 
   const { resetDiscount } = useDiscount();
@@ -160,10 +162,12 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
       router.refresh();
       setCompleted(true);
       setIsLoading(false);
+      handleQuery('');
     }
 
     if (!result.success) {
       setIsLoading(false);
+      handleQuery('');
       toast.message(result.message);
     }
   };
@@ -171,6 +175,7 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
   const handleCanel = () => {
     closeModal();
     setCompleted(false);
+    // resetDiscount();
   };
 
   // const handleAfterPrint = () => {
@@ -183,7 +188,7 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
       <DialogTrigger asChild>
         <Button
           disabled={disabled}
-          className='w-full rounded-full py-6 font-normal text-base text-white mt-4 bg-gray-950 hover:from-blue-600 hover:to-blue-700 transition-all duration-300'
+          className='w-full rounded-full py-6 font-normal text-base text-white mt-4 bg-gradient-to-br from-blue-500 to-blue-800 bg-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-300'
         >
           <HandCoins />
           Passer à la caisse
@@ -196,7 +201,7 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
             <Button
               size={'icon'}
               variant={'destructive'}
-              onClick={() => closeModal()}
+              onClick={handleCanel}
               className='absolute -top-3 -right-3 z-30'
             >
               <XIcon />

@@ -27,7 +27,7 @@ export default function RootLayout({
               <SideBar />
             </aside>
             <main className='flex-1'>
-              <Card className='h-[calc(100vh-3rem)] w-full  border-[0.1px] border-slate-300  overflow-hidden shadow-none'>
+              <Card className='h-[calc(100vh-3rem)] w-full  border-2 border-slate-300  overflow-hidden shadow-none'>
                 <CardContent className='p-0 h-full flex flex-col bg-white'>
                   <MotionProvider>{children}</MotionProvider>
                 </CardContent>

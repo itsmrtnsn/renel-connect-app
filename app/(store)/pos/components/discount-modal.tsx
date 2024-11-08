@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -27,6 +24,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import {
   DiscountFormValues,
@@ -40,6 +40,7 @@ import { toast } from 'sonner';
 export default function DiscountModal() {
   const [open, setOpen] = useState(false);
   const { setDiscount, resetDiscount, discountPercentage } = useDiscount();
+  // const { items } = useCartStore();
 
   const form = useForm<DiscountFormValues>({
     resolver: zodResolver(discountSchema),
@@ -69,7 +70,7 @@ export default function DiscountModal() {
     >
       <DialogTrigger asChild>
         <Button
-          // disabled
+          disabled
           className='w-full border-none font-normal border-gray-300 shadow-none'
           variant='secondary'
         >

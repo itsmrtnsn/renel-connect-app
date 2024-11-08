@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Items } from '../(store)/pos/get-items';
-
-// Types
+import { produce } from 'immer';
+import { debounce } from 'lodash';
 
 export interface CartItem {
   product: Items;
@@ -15,91 +15,101 @@ interface CartStore {
   addItem: (product: Items) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
+  updateQuantityDebounced: (productId: string, quantity: number) => void;
   updateDiscount: (productId: string, discount: number) => void;
   clearCart: () => void;
   getTotal: () => number;
+  getTotalItems: () => number;
 }
 
-// Create store
+const immerSet = (fn: (state: CartStore) => void) => (state: CartStore) =>
+  produce(state, fn);
+
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
 
       addItem: (product) =>
-        set((state) => {
-          const existingItem = state.items.find(
-            (item) => item.product.id === product.id
-          );
-
-          if (existingItem) {
-            if (existingItem.quantity + 1 > product.quantityInStock) {
-              console.warn(
-                `Cannot add more than available stock for ${product.name}`
-              );
-              return state;
+        set(
+          immerSet((state) => {
+            const existingItem = state.items.find(
+              (item) => item.product.id === product.id
+            );
+            if (existingItem) {
+              if (existingItem.quantity < product.quantityInStock) {
+                existingItem.quantity += 1;
+              }
+            } else {
+              state.items.push({ product, quantity: 1, discount: 0 });
             }
-            return {
-              items: state.items.map((item) =>
-                item.product.id === product.id
-                  ? { ...item, quantity: item.quantity + 1 }
-                  : item
-              ),
-            };
-          }
-
-          return {
-            items: [...state.items, { product, quantity: 1, discount: 0 }],
-          };
-        }),
+          })
+        ),
 
       removeItem: (productId) =>
-        set((state) => ({
-          items: state.items.filter((item) => item.product.id !== productId),
-        })),
+        set(
+          immerSet((state) => {
+            state.items = state.items.filter(
+              (item) => item.product.id !== productId
+            );
+          })
+        ),
 
       updateQuantity: (productId, quantity) =>
-        set((state) => ({
-          items: state.items
-            .map((item) =>
-              item.product.id === productId
-                ? {
-                    ...item,
-                    quantity: Math.max(
-                      0,
-                      Math.min(quantity, item.product.quantityInStock)
-                    ),
-                  }
-                : item
-            )
-            .filter((item) => item.quantity > 0),
-        })),
+        set(
+          immerSet((state) => {
+            const item = state.items.find(
+              (item) => item.product.id === productId
+            );
+            if (item) {
+              item.quantity = Math.max(
+                0,
+                Math.min(quantity, item.product.quantityInStock)
+              );
+              if (item.quantity === 0) {
+                state.items = state.items.filter(
+                  (i) => i.product.id !== productId
+                );
+              }
+            }
+          })
+        ),
+
+      updateQuantityDebounced: debounce(
+        (productId: string, quantity: number) => {
+          get().updateQuantity(productId, quantity);
+        },
+        300
+      ),
 
       updateDiscount: (productId, discount) =>
-        set((state) => ({
-          items: state.items.map((item) =>
-            item.product.id === productId
-              ? {
-                  ...item,
-                  discount: Math.max(
-                    0,
-                    Math.min(discount, item.product.selling_Price)
-                  ),
-                }
-              : item
-          ),
-        })),
+        set(
+          immerSet((state) => {
+            const item = state.items.find(
+              (item) => item.product.id === productId
+            );
+            if (item) {
+              item.discount = Math.max(
+                0,
+                Math.min(discount, item.product.selling_Price)
+              );
+            }
+          })
+        ),
 
       clearCart: () => set({ items: [] }),
 
       getTotal: () => {
-        const items = get().items;
-        return items.reduce(
+        return get().items.reduce(
           (total, item) =>
             total +
             (item.product.selling_Price - item.discount) * item.quantity,
           0
         );
+      },
+
+      getTotalItems: () => {
+        return get().items.reduce((total, item) => total + item.quantity, 0);
       },
     }),
     {
@@ -122,5 +132,3 @@ export const useCartStore = create<CartStore>()(
     }
   )
 );
-
-// Example usage component

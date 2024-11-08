@@ -40,7 +40,7 @@ const SideBar = () => {
   };
 
   return (
-    <Card className='h-[calc(100vh-3rem)] overflow-hidden border-[0.1px]  shadow-none border-slate-300  bg-white '>
+    <Card className='h-[calc(100vh-3rem)] overflow-hidden border-2  shadow-none border-slate-300  bg-white '>
       <CardContent className='p-0 h-full'>
         <motion.div
           initial={false}
@@ -79,13 +79,14 @@ const SideBar = () => {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Button
+                            size='lg'
                             disabled={item.disabled}
-                            variant='ghost'
+                            variant='outline'
                             className={cn(
-                              'w-full justify-between outline-none  transition-all duration-300 ease-in-out',
+                              'w-full justify-between outline-none  transition-all duration-300 ease-in-out shadow-none border-2 border-blue-300',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
-                                'bg-blue-600 hover:text-blue-600',
+                                'bg-blue-500 hover:text-blue-600',
                               activeMenu === item.name && 'rounded-lg'
                             )}
                             onClick={() => {
@@ -234,7 +235,7 @@ const SideBar = () => {
                   <SignInButton />
                 </SignedOut>
                 <SignedIn>
-                  <UserButton showName />
+                  <UserButton showName={isSidebarOpen} />
                 </SignedIn>
               </CardContent>
             </Card>

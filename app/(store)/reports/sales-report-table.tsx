@@ -66,7 +66,7 @@ const SalesReportTable = ({ sales, totalRevenue }: Props) => {
       </TableBody>
 
       <TableFooter>
-        <TableRow className='bg-gray-500 hover:bg-gray-600 transition-colors duration-300 ease-linear cursor-pointer'>
+        <TableRow className='bg-gray-500 hover:bg-gray-600 transition-colors duration-300 ease-linear cursor-pointer rounded-lg'>
           <TableCell></TableCell>
           <TableCell colSpan={2} className='font-semibold text-base text-white'>
             Total

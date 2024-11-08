@@ -83,7 +83,7 @@ const SideBar = () => {
                             disabled={item.disabled}
                             variant='outline'
                             className={cn(
-                              'w-full justify-between outline-none  transition-all duration-300 ease-in-out shadow-none border-2 border-blue-300',
+                              'w-full justify-between outline-none border-none text-white  bg-blue-500 h-11 transition-all duration-300 ease-in-out shadow-none  border-blue-300',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
                                 'bg-blue-500 hover:text-blue-600',
@@ -122,11 +122,14 @@ const SideBar = () => {
                               >
                                 {/* {item.icon} */}
                                 <item.icon
-                                  className={cn('h-5 w-5  text-blue-600', {
-                                    'ml-1.5 w-4 h-4': !isSidebarOpen,
-                                    'text-white hover:text-blue-600':
-                                      activeMenu === item.name,
-                                  })}
+                                  className={cn(
+                                    'h-5 w-5  text-white hover:text-blue-500',
+                                    {
+                                      'ml-1.5 w-4 h-4': !isSidebarOpen,
+                                      'text-white hover:text-blue-600':
+                                        activeMenu === item.name,
+                                    }
+                                  )}
                                 />
                               </motion.div>
                               <AnimatePresence>

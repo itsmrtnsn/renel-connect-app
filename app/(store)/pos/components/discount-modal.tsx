@@ -36,11 +36,12 @@ import {
 
 import { LockKeyhole, RotateCcw, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
+import { useCartStore } from '@/app/hooks/use-cart-store';
 
 export default function DiscountModal() {
   const [open, setOpen] = useState(false);
   const { setDiscount, resetDiscount, discountPercentage } = useDiscount();
-  // const { items } = useCartStore();
+  const { items } = useCartStore();
 
   const form = useForm<DiscountFormValues>({
     resolver: zodResolver(discountSchema),
@@ -70,7 +71,7 @@ export default function DiscountModal() {
     >
       <DialogTrigger asChild>
         <Button
-          disabled
+          disabled={items.length === 0}
           className='w-full border-none font-normal border-gray-300 shadow-none'
           variant='secondary'
         >

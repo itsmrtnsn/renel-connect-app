@@ -4,6 +4,7 @@ import { addDays, format } from 'date-fns';
 import * as React from 'react';
 import { DateRange } from 'react-day-picker';
 
+import useQueryParameter from '@/app/hooks/use-queryparameter';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -12,7 +13,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import useQueryParameter from '@/app/hooks/use-queryparameter';
 
 export function DateRangePicker({
   className,
@@ -50,22 +50,17 @@ export function DateRangePicker({
             )}
           >
             <CalendarIcon className='mr-2 h-4 w-4' />
-            {startDate ? (
-              endDate ? (
-                <>
-                  {format(startDate, 'LLL dd, y')} -{' '}
-                  {format(endDate, 'LLL dd, y')}
-                </>
-              ) : (
-                format(startDate, 'LLL dd, y')
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+
+            {date?.from && date?.to
+              ? `${format(date.from, 'LLL dd, y')} - ${format(
+                  date.to,
+                  'LLL dd, y'
+                )}`
+              : 'Pick a date'}
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className='w-auto p-0 border-[0.1px] border-gray-300 shadow-none'
+          className='w-auto p-0 border border-gray-300 shadow-none'
           align='start'
         >
           <Calendar

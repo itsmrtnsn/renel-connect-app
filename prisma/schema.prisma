@@ -198,3 +198,55 @@ enum Gender {
 //   cashier_user_id String @unique
 //   Cashier_name    String @unique
 // }
+
+// user rights 
+model User {
+  id         Int         @id @default(autoincrement())
+  name       String
+  email      String      @unique
+  password   String
+  groupId    Int?
+  group      Group?      @relation(fields: [groupId], references: [id])
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Superadmin Superadmin?
+}
+
+model Group {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  description String?
+  rights      GroupRight[]
+  users       User[]
+  Role        Role[]
+}
+
+model Right {
+  id          Int          @id @default(autoincrement())
+  action      String // e.g., "CREATE_PRODUCT", "DELETE_TRANSACTION"
+  description String?
+  groupRights GroupRight[]
+}
+
+model GroupRight {
+  id      Int   @id @default(autoincrement())
+  groupId Int
+  rightId Int
+  group   Group @relation(fields: [groupId], references: [id])
+  right   Right @relation(fields: [rightId], references: [id])
+
+  @@unique([groupId, rightId]) // Prevent duplicate rights within the same group
+}
+
+model Role {
+  id      Int    @id @default(autoincrement())
+  name    String @unique // e.g., "Cashier", "Admin", "Developer", "Manager", "Superadmin"
+  groupId Int?
+  group   Group? @relation(fields: [groupId], references: [id])
+}
+
+model Superadmin {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+}

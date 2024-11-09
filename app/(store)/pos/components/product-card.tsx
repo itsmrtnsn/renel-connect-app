@@ -19,7 +19,7 @@ const ProductCard = ({ product }: Props) => {
   const isMaxQuantityReached = currentQuantityInCart >= product.quantityInStock;
 
   return (
-    <Card className='bg-white border shadow-none transition-all duration-300  hover:scale-105'>
+    <Card className='bg-white border-2 shadow-none transition-all duration-300  hover:scale-105'>
       <CardContent className='p-4'>
         <div className='flex flex-col h-full'>
           <h2 className='text-sm font-medium mb-2  line-clamp-1 text-black'>

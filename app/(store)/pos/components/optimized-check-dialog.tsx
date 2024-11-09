@@ -195,7 +195,7 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
                               <Label
                                 key={value}
                                 htmlFor={value}
-                                className={`flex flex-col items-center justify-center rounded-xl border-2 p-4 cursor-pointer hover:bg-accent ${
+                                className={`flex flex-col items-center justify-center rounded-lg border-2 p-4 cursor-pointer hover:bg-accent ${
                                   field.value === value
                                     ? 'border-primary'
                                     : 'border-muted'
@@ -247,7 +247,7 @@ export function CheckoutDialog({ disabled, cashier }: Props) {
                               <Label
                                 key={value}
                                 htmlFor={value}
-                                className={`flex flex-col items-center justify-center rounded-xl border-2 p-4 cursor-pointer hover:bg-accent ${
+                                className={`flex flex-col items-center justify-center rounded-lg border-2  p-4 cursor-pointer hover:bg-accent ${
                                   field.value === value
                                     ? 'border-primary'
                                     : 'border-muted'

@@ -1,3 +1,4 @@
+import { User2 } from 'lucide-react';
 import {
   FaBoxOpen,
   FaChartLine,
@@ -111,6 +112,7 @@ const sideBarLinks: {
       },
     ],
   },
+  { icon: User2, name: 'Utilisateurs', disabled: true, subitems: [] },
   {
     icon: IoSettings,
     name: 'Paramètres',

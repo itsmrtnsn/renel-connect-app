@@ -40,7 +40,7 @@ const ProductsPage = async ({ searchParams }: Props) => {
       <Suspense fallback={<ProductSummaryLoading />}>
         <ProductsSummaryCardGrid />
       </Suspense>
-      <Card className='shadow-none flex-1 overflow-hidden border-[0.1px]'>
+      <Card className='shadow-none flex-1 overflow-hidden border'>
         <CardHeader>
           <div className='flex items-center gap-2 justify-between'>
             <div className='flex items-center gap-4'>

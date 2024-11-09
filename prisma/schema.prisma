@@ -193,60 +193,107 @@ enum Gender {
   WOMEN
 }
 
-// model Cashier {
-//   id              String @id @default(cuid())
-//   cashier_user_id String @unique
-//   Cashier_name    String @unique
-// }
-
-// user rights 
 model User {
-  id         Int         @id @default(autoincrement())
-  name       String
-  email      String      @unique
-  password   String
-  groupId    Int?
-  group      Group?      @relation(fields: [groupId], references: [id])
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  Superadmin Superadmin?
-}
-
-model Group {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
-  description String?
-  rights      GroupRight[]
-  users       User[]
-  Role        Role[]
-}
-
-model Right {
-  id          Int          @id @default(autoincrement())
-  action      String // e.g., "CREATE_PRODUCT", "DELETE_TRANSACTION"
-  description String?
-  groupRights GroupRight[]
-}
-
-model GroupRight {
-  id      Int   @id @default(autoincrement())
-  groupId Int
-  rightId Int
-  group   Group @relation(fields: [groupId], references: [id])
-  right   Right @relation(fields: [rightId], references: [id])
-
-  @@unique([groupId, rightId]) // Prevent duplicate rights within the same group
+  id          String   @id @default(uuid())
+  username    String   @unique
+  first_name  String
+  last_name   String
+  is_verified Boolean  @default(false)
+  email       String?
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @updatedAt @db.Timestamptz(6)
+  created_by  String? // ID of the user who created this record
+  updated_by  String? // ID of the user who last updated this record
+  roles       Role[]
 }
 
 model Role {
-  id      Int    @id @default(autoincrement())
-  name    String @unique // e.g., "Cashier", "Admin", "Developer", "Manager", "Superadmin"
-  groupId Int?
-  group   Group? @relation(fields: [groupId], references: [id])
+  id             String           @id @default(uuid())
+  name           RoleName
+  description    String?
+  users          User[]
+  permissions    Permission[]
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime         @updatedAt @db.Timestamptz(6)
+  created_by     String?
+  updated_by     String?
+  RolePermission RolePermission[]
 }
 
-model Superadmin {
-  id     Int  @id @default(autoincrement())
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique
+model Permission {
+  id             String           @id @default(uuid())
+  name           PermissionName
+  description    String?
+  roles          Role[]
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime         @updatedAt @db.Timestamptz(6)
+  created_by     String?
+  updated_by     String?
+  RolePermission RolePermission[]
+}
+
+model RolePermission {
+  id           String     @id @default(uuid())
+  roleId       String
+  permissionId String
+  Role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  Permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  created_at   DateTime   @default(now()) @db.Timestamptz(6)
+}
+
+enum RoleName {
+  CASHIER
+  MANAGER
+  SUPERVISOR
+  ADMIN
+  DEVELOPER
+}
+
+enum PermissionName {
+  CREATE_USER
+  VIEW_USER
+  UPDATE_USER
+  DELETE_USER
+  MANAGE_USER_PERMISSIONS
+  RESET_USER_PASSWORD
+  CREATE_PRODUCT
+  VIEW_PRODUCT
+  UPDATE_PRODUCT
+  DELETE_PRODUCT
+  MANAGE_PRODUCT_PRICING
+  MANAGE_PRODUCT_DISCOUNTS
+  VIEW_INVENTORY
+  UPDATE_INVENTORY
+  MANAGE_SUPPLIERS
+  VIEW_SUPPLY_CHAIN
+  CREATE_TRANSACTION
+  VIEW_TRANSACTION
+  UPDATE_TRANSACTION
+  DELETE_TRANSACTION
+  PROCESS_REFUND
+  APPLY_DISCOUNT
+  CREATE_CUSTOMER
+  VIEW_CUSTOMER
+  UPDATE_CUSTOMER
+  DELETE_CUSTOMER
+  VIEW_SALES_REPORTS
+  VIEW_INVENTORY_REPORTS
+  VIEW_FINANCIAL_REPORTS
+  EXPORT_REPORTS
+  MANAGE_SETTINGS
+  MANAGE_PAYMENT_METHODS
+  MANAGE_TAX_SETTINGS
+  CONFIGURE_NOTIFICATIONS
+  CONFIGURE_AUDIT_LOGS
+  VIEW_PERMISSIONS
+  ASSIGN_PERMISSIONS
+  MANAGE_ROLES
+  VIEW_AUDIT_LOGS
+  MANAGE_TWO_FACTOR_AUTH
+  VIEW_SYSTEM_LOGS
+  DEBUG_SYSTEM
+  DEPLOY_UPDATES
+  ACCESS_API
+  PERFORM_BACKUP
+  CONFIGURE_INTEGRATIONS
 }

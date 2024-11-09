@@ -26,7 +26,7 @@ const NewProductPage = async (props: Props) => {
 
   return (
     <div>
-      <Card className='border-[0.1px] shadow-none'>
+      <Card className='border shadow-none'>
         <div className='flex items-center justify-between mr-4'>
           <CardHeader>
             <CardTitle className='text-3xl font-bold'>
@@ -43,7 +43,7 @@ const NewProductPage = async (props: Props) => {
         </div>
 
         <ScrollArea className='h-[70vh]'>
-          <CardContent className='border-[0.1px] bg-slate-50/50  rounded-lg m-8 mt-4 p-8'>
+          <CardContent className='border bg-gray-50  rounded-lg m-8 mt-4 p-8'>
             {selectedProductType === 'INVENTORY' && (
               <Suspense>
                 <CreateInventoryProductForm />

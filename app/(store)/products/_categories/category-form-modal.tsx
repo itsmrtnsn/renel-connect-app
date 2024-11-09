@@ -19,7 +19,7 @@ const CategoryFormModal = () => {
       <DialogTrigger asChild>
         <Button
           variant='outline'
-          className='border-slate-300 border-[0.1px] shadow-none'
+          className='border-slate-300 border shadow-none'
         >
           <PlusCircle />
         </Button>

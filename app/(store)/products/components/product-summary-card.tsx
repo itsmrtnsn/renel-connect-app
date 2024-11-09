@@ -11,7 +11,7 @@ interface Props {
 
 const ProductSummaryCard = ({ Icon, iconColor, value, title }: Props) => {
   return (
-    <Card className='bg-gray-100  border-none rounded-lg shadow-none '>
+    <Card className='bg-gray-100/50 shadow-none border text-black'>
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
         <CardTitle className='text-sm font-medium text-nowrap text-muted-foreground'>
           {title}

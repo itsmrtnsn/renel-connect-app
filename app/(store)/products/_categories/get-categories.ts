@@ -7,10 +7,31 @@ export type Category = {
   slug: string;
 };
 
-const getCategories = async () => {
+interface GetCategoryOptions {
+  search?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+const getCategories = async ({
+  search = '',
+  page = 1,
+  pageSize = 10,
+}: GetCategoryOptions = {}) => {
+  const skip = (page - 1) * pageSize;
+
   try {
     const categories: Category[] = await prisma.category.findMany({
-      select: { id: true, name: true, slug: true },
+      where: search
+        ? {
+            OR: [
+              { name: { contains: search, mode: 'insensitive' } },
+              { slug: { contains: search, mode: 'insensitive' } },
+            ],
+          }
+        : undefined,
+      skip,
+      take: pageSize,
     });
 
     return { success: true, data: categories };

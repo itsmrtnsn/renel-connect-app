@@ -10,10 +10,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          'shadow-none border-[0.1px] border-gray-300 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 flex h-10 w-full rounded-md  transition-colors border-input bg-background  px-3 py-2 text-sm font-medium text-gray-800 ring-offset-background',
+          'shadow-none border border-gray-300 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 flex h-10 w-full rounded-md  transition-colors border-input bg-background  px-3 py-2 text-sm font-medium text-blue-800 ring-offset-background',
           'placeholder:text-muted-foreground',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/30 focus-visible:ring-offset-2',
-          'focus-visible:border-gray-500',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30 focus-visible:ring-offset-2',
+          'focus-visible:border-blue-500',
           'disabled:cursor-not-allowed disabled:opacity-50',
           'transition-all duration-300 ease-out',
           'focus-visible:shadow-md',

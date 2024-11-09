@@ -28,23 +28,31 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Supplier } from '@prisma/client';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import createPurchase from '../../_actions/create-purchase';
-import getInventoryProducts, {
-  InventoryProduct,
-} from '../../_actions/get-inventory-products';
-import getSupplier from '../../suppliers/get-supplier';
-import { PurchaseFormData, purchaseSchema } from './create-purchase-schema';
-import ProductSupplierFormModal from '../../suppliers/new/product-supplier-from-modal';
 
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import purchaseInventoryProducts from '../../_actions/purchase-inventory-products';
+import getSupplier from '../../suppliers/get-supplier';
+import ProductSupplierFormModal from '../../suppliers/new/product-supplier-from-modal';
+import { PurchaseFormData, purchaseSchema } from './create-purchase-schema';
 export default function PurchaseForm() {
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const [inventoryProducts, setInventoryProducts] = useState<
-    InventoryProduct[]
-  >([]);
+
+  const [purchaseInventoryProductsItems, setPurchaseInventoryProducts] =
+    useState<{ id: string; name: string }[]>([]);
+
   const [purchaseCalendarDate, setPurchaseCalendarDate] = useState<Date>(
     new Date()
   );
@@ -111,6 +119,7 @@ export default function PurchaseForm() {
       toast.error(result?.message);
     } else {
       toast.success("L'achat a été enregistré avec succès");
+      form.reset();
     }
   }
 
@@ -122,15 +131,20 @@ export default function PurchaseForm() {
       }
     };
     fetchSuppliers();
-  }, []);
+  }, [query]);
 
   useEffect(() => {
     const fetchInventoryProducts = async () => {
-      const products = await getInventoryProducts();
-      setInventoryProducts(products.data);
+      const response = await purchaseInventoryProducts({
+        search: query,
+        pageSize: 5,
+      });
+      if (response.statusCode === 200) {
+        setPurchaseInventoryProducts(response.products!);
+      }
     };
     fetchInventoryProducts();
-  }, []);
+  }, [query]);
 
   const renderCalendar = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -218,22 +232,69 @@ export default function PurchaseForm() {
           control={form.control}
           name='product_id'
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nom du produit</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Choisissez un produit dans la liste' />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {inventoryProducts.map((product) => (
-                    <SelectItem key={product.id} value={product.id}>
-                      {product.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <FormItem className='flex flex-col'>
+              <div className='flex items-center'>
+                <FormLabel>Nom de la catégorie</FormLabel>
+                <span className='text-red-500'>*</span>
+              </div>
+              <Popover open={open} onOpenChange={setOpen}>
+                <div className='flex items-center gap-2'>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant='outline'
+                        role='combobox'
+                        aria-expanded={open}
+                        className='w-full justify-between font-normal shadow-none border-gray-300 border h-10'
+                      >
+                        {field.value
+                          ? purchaseInventoryProductsItems.find(
+                              (product) => product.id === field.value
+                            )?.name
+                          : `listes d'articles`}
+                        <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  {/* <CategoryFormModal /> */}
+                </div>
+
+                <PopoverContent className='w-[310px] p-0 shadow-none border border-slate-300'>
+                  <Command>
+                    <div className='m-2'>
+                      <Input
+                        placeholder='Trouver un article...'
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                      />
+                    </div>
+                    <CommandList className='border-[0.1px] mx-2 mb-2 rounded-lg border-slate-300'>
+                      <CommandEmpty>Aucun produit trouvé</CommandEmpty>
+                      <CommandGroup>
+                        {purchaseInventoryProductsItems.map((prduct) => (
+                          <CommandItem
+                            key={prduct.id}
+                            onSelect={() => {
+                              form.setValue('product_id', prduct.id);
+                              setOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                field.value === prduct.id
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )}
+                            />
+                            {prduct.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

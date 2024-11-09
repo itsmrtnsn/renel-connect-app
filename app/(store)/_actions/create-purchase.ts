@@ -5,6 +5,7 @@ import {
   PurchaseFormData,
   purchaseSchema,
 } from '../purchases/components/create-purchase-schema';
+import { revalidatePath } from 'next/cache';
 
 const createPurchase = async (data: PurchaseFormData) => {
   // Validate input data against schema
@@ -39,6 +40,7 @@ const createPurchase = async (data: PurchaseFormData) => {
       },
     });
 
+    revalidatePath('/products'); // Revalidate the purchases page
     return {
       success: true,
       data: purchase,

@@ -19,7 +19,7 @@ interface InventoryProductsOptions {
 }
 
 const inventoryProducts = async (options: InventoryProductsOptions = {}) => {
-  const { search, page = 1, pageSize = 10 } = options;
+  const { search = '', page = 1, pageSize = 10 } = options;
 
   // Validate pagination parameters
   if (page < 1 || pageSize < 1 || pageSize > 100) {
@@ -111,6 +111,7 @@ const inventoryProducts = async (options: InventoryProductsOptions = {}) => {
     const totalPages = Math.ceil(totalProducts / pageSize);
 
     return {
+      success: true,
       data: productData || [],
       pagination: {
         totalProducts,

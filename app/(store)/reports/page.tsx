@@ -84,7 +84,7 @@ const page = async ({
               <TabsTrigger value='sales_items_report'>Items</TabsTrigger>
             </TabsList>
             <TabsContent value='sales_items_report'>
-              <Card className=' shadow-none'>
+              <Card className=' shadow-none border-2'>
                 <CardHeader>
                   <div className='flex items-center justify-between'>
                     <Search />
@@ -106,7 +106,7 @@ const page = async ({
               </Card>
             </TabsContent>
             <TabsContent value='sales_report'>
-              <Card className='shadow-none'>
+              <Card className='shadow-none border-2'>
                 <CardHeader>
                   <div className='flex items-center justify-between'>
                     <Search />

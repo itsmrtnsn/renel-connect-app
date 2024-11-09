@@ -29,7 +29,7 @@ const ReportSummaryCard = async ({ startDate, endDate }: Props) => {
     },
     {
       id: 3,
-      title: 'Total des transactions',
+      title: 'transactions',
       value: data.totalSales,
       icon: ShoppingCart,
     },
@@ -40,10 +40,12 @@ const ReportSummaryCard = async ({ startDate, endDate }: Props) => {
       {reportData.map((data) => (
         <Card
           key={data.id}
-          className='bg-gray-100 shadow-none border-none text-black'
+          className='bg-gray-100/50 shadow-none border-2 text-black'
         >
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>{data.title}</CardTitle>
+            <CardTitle className='text-base font-medium text-muted-foreground'>
+              {data.title}
+            </CardTitle>
             <data.icon className='h-4 w-4 text-blue-600' />
           </CardHeader>
           <CardContent>

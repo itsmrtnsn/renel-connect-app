@@ -47,7 +47,7 @@ export const CategorySalesBarCharts = ({ food, drink, other, room }: Props) => {
   ];
 
   return (
-    <Card className='shadow-none '>
+    <Card className='shadow-none border-2'>
       <CardHeader>
         <CardTitle>Ventes par Catégorie</CardTitle>
         {/* <CardDescription>Janvier - Juin 2024</CardDescription> */}

@@ -27,7 +27,7 @@ export function DateRangePicker({
 
   const myDate = query && query.split('x');
   const startDate = myDate ? new Date(myDate[0]) : new Date();
-  const endDate = myDate ? new Date(myDate[1]) : new Date();
+  // const endDate = myDate ? new Date(myDate[1]) : new Date();
 
   const handleDate = () => {
     if (date?.from && date?.to) {
@@ -45,7 +45,7 @@ export function DateRangePicker({
             id='date'
             variant={'outline'}
             className={cn(
-              'w-[250px] justify-start text-left font-normal shadow-none border-[0.1px]',
+              'w-[250px] justify-start text-left font-normal shadow-none border-2',
               !date && 'text-muted-foreground'
             )}
           >

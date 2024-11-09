@@ -83,7 +83,7 @@ const SideBar = () => {
                             disabled={item.disabled}
                             variant='outline'
                             className={cn(
-                              'w-full justify-between outline-none border-none text-white  bg-blue-500 h-11 transition-all duration-300 ease-in-out shadow-none  border-blue-300',
+                              'w-full justify-between outline-none border-none text-white hover:text-blue-500  bg-blue-500 h-11 transition-all duration-300 ease-in-out shadow-none  border-blue-300',
                               isSidebarOpen ? 'px-4' : 'px-2',
                               activeMenu === item.name &&
                                 'bg-blue-500 hover:text-blue-600',
@@ -125,7 +125,8 @@ const SideBar = () => {
                                   className={cn(
                                     'h-5 w-5  text-white hover:text-blue-500',
                                     {
-                                      'ml-1.5 w-4 h-4': !isSidebarOpen,
+                                      'ml-1.5 w-4 h-4 hover:text-blue-600':
+                                        !isSidebarOpen,
                                       'text-white hover:text-blue-600':
                                         activeMenu === item.name,
                                     }
@@ -208,7 +209,7 @@ const SideBar = () => {
 
             <Card
               className={cn(
-                'mt-4 bg-slate-50  border-none transition-all duration-300',
+                'mt-4 bg-gray-100  border-2 shadow-none transition-all duration-300',
                 isSidebarOpen ? 'p-4' : 'p-2'
               )}
             >

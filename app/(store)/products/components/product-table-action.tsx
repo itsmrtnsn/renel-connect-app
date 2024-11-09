@@ -15,6 +15,7 @@ const ProductTableAction = ({ productId }: { productId: string }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className='shadow-none'>
         <Button
+          disabled
           size='icon'
           variant='ghost'
           className='bordr-[0.1px] shadow-none'

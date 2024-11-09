@@ -1,7 +1,7 @@
 import BackButton from '@/components/back-button';
 import { DateRangePicker } from '@/components/data-range-picker';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getProductById } from '../../_actions/get-product-by-id';
+import { getProductById } from '../../_actions/get-product-report-by-id';
 import ProductDetailSummaryCard from './product-detail-summary-card';
 
 interface Props {

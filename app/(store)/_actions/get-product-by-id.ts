@@ -1,55 +1,55 @@
+'use server';
+
 import prisma from '@/prisma/client';
+import { InventoryProduct, Product, ServicesProduct } from '@prisma/client';
 
-export async function getProductById(product_id: string) {
-  const existProduct = await prisma.product.findUnique({
-    where: { id: product_id },
-  });
+// Start of Selection
+type Response = {
+  success: boolean;
+  message: string;
+  data?: Product & {
+    inventory_products: InventoryProduct[];
+    services_products: ServicesProduct[];
+  };
+};
 
-  if (!existProduct) {
+const getProductById = async (id: string): Promise<Response> => {
+  // Validate input
+  if (!id || typeof id !== 'string') {
     return {
       success: false,
-      message: 'Produit non trouvé',
+      message: 'Invalid product ID',
     };
   }
 
   try {
     const product = await prisma.product.findUnique({
-      where: { id: product_id },
-
+      where: { id },
       include: {
-        sale_items: {
-          select: { quantity: true, selling_price: true, unit_price: true },
-        },
+        inventory_products: true,
+        services_products: true,
       },
     });
 
-    // Calculate total quantity sold and total revenue
-    const aggregation = await prisma.saleItem.aggregate({
-      _sum: {
-        quantity: true,
-        selling_price: true, // Assuming `total` is the revenue per sale item
-      },
-      where: {
-        product_id: product_id,
-      },
-    });
-
-    const quantitySold = aggregation._sum.quantity || 0;
-    const totalRevenue = aggregation._sum.selling_price || 0;
+    if (!product) {
+      return {
+        success: false,
+        message: 'Product not found',
+      };
+    }
 
     return {
       success: true,
-      message: 'Produit trouvé',
-      product: {
-        ...product,
-        quantitySold,
-        totalRevenue,
-      },
+      message: 'Product found',
+      data: product,
     };
   } catch (error) {
+    console.error('Error fetching product:', error); // Logs error for debugging
     return {
       success: false,
-      message: `Erreur lors de la recherche du produit: ${String(error)}`,
+      message: 'An unexpected error occurred while fetching the product',
     };
   }
-}
+};
+
+export default getProductById;

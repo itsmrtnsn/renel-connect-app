@@ -83,7 +83,7 @@ model InventoryProduct {
 model ServicesProduct {
   id               String   @id @default(cuid())
   product          Product  @relation(fields: [product_id], references: [id])
-  product_id       String
+  product_id       String   @unique
   service_location String?
   service_duration Int
   created_at       DateTime @default(now())

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, Package, PackageMinus, ShoppingCart } from 'lucide-react';
-import { getProductById } from '../../_actions/get-product-by-id';
+import { getProductById } from '../../_actions/get-product-report-by-id';
 
 interface Props {
   product_id: string;

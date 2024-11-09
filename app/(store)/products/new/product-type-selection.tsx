@@ -27,7 +27,7 @@ const ProductTypeSelection = () => {
         />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value='INVENTORY'>Inventaire</SelectItem>
+        <SelectItem value='INVENTORY'>Inventory</SelectItem>
         <SelectItem value='NON_INVENTORY'>Non Inventory</SelectItem>
         <SelectItem value='SERVICES'>Services</SelectItem>
       </SelectContent>

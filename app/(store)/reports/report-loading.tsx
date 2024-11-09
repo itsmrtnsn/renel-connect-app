@@ -6,7 +6,9 @@ export default function POSSalesReportLoading() {
   return (
     <div className='container mx-auto p-4 space-y-6'>
       <div className='flex justify-between items-center'>
-        <h1 className='text-3xl font-bold'>POS Sales Report</h1>
+        <h1 className='text-4xl font-bold'>
+          Rapport de ventes de Renel Connect
+        </h1>
         <div className='flex items-center space-x-2'>
           <Skeleton className='h-10 w-[300px]' />
           <Skeleton className='h-10 w-[180px]' />
@@ -61,9 +63,11 @@ export default function POSSalesReportLoading() {
       <div className='fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm'>
         <div className='text-center'>
           <Loader2 className='h-16 w-16 animate-spin text-primary mx-auto' />
-          <p className='mt-4 text-lg font-semibold'>Loading Sales Report...</p>
+          <p className='mt-4 text-lg font-semibold'>
+            Chargement du rapport des ventes...
+          </p>
           <p className='text-sm text-muted-foreground'>
-            This may take a few moments
+            Cela peut prendre quelques instants{' '}
           </p>
         </div>
       </div>

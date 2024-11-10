@@ -19,7 +19,7 @@ const Search = ({ placeholder }: Props) => {
         id='search'
         onChange={(e) => handleQuery(e.target.value)}
         className={cn(
-          'flex  h-10 w-full rounded-md border  border-gray-300 border-input bg-background px-3 py-2 pl-8 text-sm ring-offset-background transition-all ease-linear duration-300',
+          'flex  h-10 w-full min-w-[20rem] rounded-md border  border-gray-300 border-input bg-background px-3 py-2 pl-8 text-sm ring-offset-background transition-all ease-linear duration-300',
           'placeholder:text-muted-foreground'
         )}
         placeholder={placeholder || 'Enter your Query'}

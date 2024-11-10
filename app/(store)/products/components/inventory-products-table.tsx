@@ -55,7 +55,7 @@ export default function InventoryProductsTable({ products }: Props) {
               key={product.sku}
               className={cn(
                 'cursor-pointer h-12 border-none text-gray-700',
-                index % 2 === 0 ? '' : 'bg-blue-50/50'
+                index % 2 === 0 ? '' : 'bg-blue-50'
               )}
             >
               <TableCell>

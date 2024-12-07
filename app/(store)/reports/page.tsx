@@ -106,7 +106,7 @@ const page = async ({
               </Card>
             </TabsContent>
             <TabsContent value='sales_report'>
-              <Card className='shadow-none border-2'>
+              <Card className='shadow-none'>
                 <CardHeader>
                   <div className='flex items-center justify-between'>
                     <Search />

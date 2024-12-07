@@ -38,10 +38,7 @@ const ReportSummaryCard = async ({ startDate, endDate }: Props) => {
   return (
     <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
       {reportData.map((data) => (
-        <Card
-          key={data.id}
-          className='bg-gray-100/50 shadow-none border-2 text-black'
-        >
+        <Card key={data.id} className='bg-gray-100/50 shadow-none  text-black'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-base font-medium text-muted-foreground'>
               {data.title}
